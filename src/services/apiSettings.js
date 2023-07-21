@@ -1,27 +1,24 @@
-import supabase from "./supabase";
-
-export async function getSettings() {
-  const { data, error } = await supabase.from("settings").select("*").single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Settings could not be loaded");
-  }
+const URL = "http://127.0.0.1:3000/api/v1";
+const getSetting = async () => {
+  const res = await fetch(`${URL}/settings`);
+  if (!res.ok) throw Error("failed getting setting");
+  const { data } = await res.json();
   return data;
-}
+};
 
-// We expect a newSetting object that looks like {setting: newValue}
-export async function updateSetting(newSetting) {
-  const { data, error } = await supabase
-    .from("settings")
-    .update(newSetting)
-    // There is only ONE row of settings, and it has the ID=1, and so this is the updated one
-    .eq("id", 1)
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Settings could not be updated");
+const editSetting = async (newSetting, id) => {
+  console.log(newSetting, id);
+  try {
+    const res = await fetch(`${URL}/settings/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(newSetting),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) throw Error();
+  } catch {
+    throw Error("Failed updating your setting");
   }
-  return data;
-}
+};
+export { getSetting, editSetting };
