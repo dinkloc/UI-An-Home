@@ -45,8 +45,6 @@ const Footer = styled.footer`
   display: flex;
   justify-content: center;
   padding: 1.2rem;
-
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
   &:not(:has(*)) {
     display: none;
   }
@@ -60,7 +58,7 @@ const Empty = styled.p`
 `;
 
 const TableContext = createContext();
-const Table = ({ columns, children }) => {
+const Table = ({ children, columns }) => {
   return (
     <TableContext.Provider value={{ columns }}>
       <StyledTable role="table">{children}</StyledTable>

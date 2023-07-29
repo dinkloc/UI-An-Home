@@ -12,6 +12,7 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayOut";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,8 +30,9 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
+          <Route index element={<Navigate replace to="home" />}></Route>
+          <Route path="home" element={<Home />}></Route>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="dashboard" />}></Route>
             <Route path="dashboard" element={<Dashboard />}></Route>
             <Route path="bookings" element={<Bookings />}></Route>
             <Route path="cabins" element={<Cabins />}></Route>

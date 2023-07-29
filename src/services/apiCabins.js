@@ -9,7 +9,12 @@ const getCabins = async () => {
 };
 
 const deleteCabin = async (id) => {
-  await fetch(`${URL}/cabins/${id}`, { method: "DELETE" }).then((response) => {
+  await fetch(`${URL}/cabins/${id}`, {
+    method: "DELETE",
+    headers: {
+      "content-Type": "application/json",
+    },
+  }).then((response) => {
     if (!response.ok) {
       throw new Error("Something went wrong");
     }
