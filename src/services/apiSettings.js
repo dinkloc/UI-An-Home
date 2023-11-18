@@ -7,7 +7,6 @@ const getSetting = async () => {
 };
 
 const editSetting = async (newSetting, id) => {
-  console.log(newSetting, id);
   try {
     const res = await fetch(`${URL}/settings/${id}`, {
       method: "PATCH",

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSetting } from "../../services/apiSettings";
 
-const useCabins = () => {
+const useSettings = () => {
   const {
     isLoading,
     data: settings,
@@ -13,4 +13,4 @@ const useCabins = () => {
   return { isLoading, settings, error };
 };
 
-export default useCabins;
+export default useSettings;

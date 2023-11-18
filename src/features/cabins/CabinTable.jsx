@@ -8,6 +8,9 @@ import Menus from "../../ui/Menus";
 const CabinTable = () => {
   const { isLoading, cabins } = useCabins();
   const [searchParams] = useSearchParams();
+  const token = localStorage.getItem("token");
+  console.log(token);
+  if (!token) return <Spinner />;
   if (isLoading) return <Spinner />;
   const filterParams = searchParams.get("discount") || "all";
   const sortByParams = searchParams.get("sortBy") || "name-asc";

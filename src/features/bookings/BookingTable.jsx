@@ -4,25 +4,27 @@ import Menus from "../../ui/Menus";
 import useBookings from "./useBookings";
 import Spinner from "../../ui/Spinner";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "../../ui/Pagination";
 
 function BookingTable() {
-  const { isLoading, bookings } = useBookings();
+  const { isLoading, bookings, bookingsWithoutPaging } = useBookings();
   const [searchParams] = useSearchParams();
   if (isLoading) return <Spinner />;
   const filterParams = searchParams.get("status") || "all";
   const sortByParams = searchParams.get("sortBy") || "startDate-desc";
   let filterBookings;
-  if (filterParams === "all") filterBookings = bookings.booking;
+  console.log(bookingsWithoutPaging);
+  if (filterParams === "all") filterBookings = bookings?.booking;
   if (filterParams === "checked-out")
-    filterBookings = bookings.booking.filter(
+    filterBookings = bookingsWithoutPaging.booking.filter(
       (booking) => booking.status === "checked-out"
     );
   if (filterParams === "checked-in")
-    filterBookings = bookings.booking.filter(
+    filterBookings = bookingsWithoutPaging.booking.filter(
       (booking) => booking.status === "checked-in"
     );
   if (filterParams === "unconfirmed")
-    filterBookings = bookings.booking.filter(
+    filterBookings = bookingsWithoutPaging.booking.filter(
       (booking) => booking.status === "unconfirmed"
     );
   const [field, direction] = sortByParams.split("-");
@@ -30,7 +32,7 @@ function BookingTable() {
   const modifier = direction === "asc" ? 1 : -1;
   if (field === "startDate") {
     sortedBookings = filterBookings.sort((a, b) => {
-      return (Date.parse(b.startDate) - Date.parse(a.startDate)) * modifier;
+      return (Date.parse(a.startDate) - Date.parse(b.startDate)) * modifier;
     });
   }
   sortedBookings = filterBookings.sort(
@@ -54,6 +56,9 @@ function BookingTable() {
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={4} />
+        </Table.Footer>
       </Table>
     </Menus>
   );
